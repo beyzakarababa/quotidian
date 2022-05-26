@@ -3,7 +3,7 @@ import {Container, Row, Col, Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import {createTableName, fetchTableName} from "../../actions";
 import AddTodo from "../Todos/AddTodo";
-import "../../App.css"
+import {toast} from "react-toastify";
 
 function AddTable(props) {
   const [card, setCard] = useState(false);
@@ -22,18 +22,20 @@ function AddTable(props) {
   const onAddButtonClick = () => {
     if (inputChange !== "") {
       props.createTableName({cardName: inputChange});
+      addCard(false);
+      toast.success("New list is succesfully created.");
     }
   };
   const renderTodo = () => {
     return props.listName.map((el, index) => (
       <Col sm={4}>
-        <AddTodo key={index} cardName={el.cardName} />
+        <AddTodo key={index} cardName={el.cardName} cardId={el.id}/>
       </Col>
     ));
   };
   return (
     <div>
-      <div
+      <div className="mx-2"
         style={{
           display: "flex",
           alignItems: "flex-end",
@@ -41,7 +43,7 @@ function AddTable(props) {
           float: "right",
         }}
       >
-        <Button onClick={addCard} variant="light" className="float-sm-and">
+        <Button onClick={addCard} variant="outline-secondary" className="mt-2" size="sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -56,18 +58,19 @@ function AddTable(props) {
           Add another list
         </Button>
         {card ? (
-          <div>
-            <input placeholder="addCard" onChange={onInputChange} />
-            <div>
-              <Button onClick={onAddButtonClick}>Add</Button>
-              <Button onClick={addCard} >Cancel</Button>
+          <div className="mt-2">
+            <input placeholder="Add new card.." onChange={onInputChange} />
+            <div className="mt-2">
+              <Button onClick={addCard} variant="danger" >Cancel</Button>
+              <Button onClick={onAddButtonClick} variant="info" style={{display: "flex", alignItems: "flex-end", float: "right"}}>Add</Button>
+              
             </div>
           </div>
         ) : undefined}
       </div>
       <div>
       <Container className="mt-4">
-        <Row className="mt-4">
+        <Row className="mt-4 flex-nowrap overflow-auto" style={{padding:"10px"}}>
           {renderTodo()}
         </Row>
       </Container>

@@ -1,7 +1,7 @@
 import react from "react";
 import {connect} from "react-redux";
 import {Field, reduxForm} from "redux-form";
-import {register} from "./../../actions";
+import {login} from "./../../actions";
 import { Button, Container } from "react-bootstrap";
 
 const renderInput = ({input, label, meta}) => {
@@ -17,12 +17,12 @@ const renderInput = ({input, label, meta}) => {
   );
 };
 
-const RegisterPage = (props) => {
-  console.log(props);
+const LoginPage = (props) => {
     const onSubmit = (formvalues) => {
         const rowData = new URLSearchParams(Object.keys(formvalues).map(key=>[key,formvalues[key]]));
+        console.log("login page form values: " ,formvalues);
         console.log(rowData);
-        props.register(rowData, ()=> props.history.push("/"));
+        props.login(rowData, ()=> props.history.push("login"));
     }
     
   return <div>
@@ -34,14 +34,14 @@ const RegisterPage = (props) => {
           <fieldset>
               <Field name="sifre" label="Password" type="text" component={renderInput}/>
           </fieldset>
-          <button className="btn btn-success mt-3">Register me!</button>
+          <button className="btn btn-success mt-3">Login me!</button>
       </form>
       </Container>
   </div>;
 };
 
-export default connect(null, {register})(
+export default connect(null, {login})(
   reduxForm({
-    form: "registerForm",
-  })(RegisterPage)
+    form: "loginForm",
+  })(LoginPage)
 );

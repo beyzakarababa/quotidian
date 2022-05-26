@@ -1,31 +1,31 @@
 import react, {useEffect} from "react";
 import Modal from "./../Modal";
 import {connect} from "react-redux";
-import {deleteTodo, fetchSingleTodo} from "./../../actions";
+import {deleteTable, fetchSingleTable} from "./../../actions";
 import {Link} from "react-router-dom";
 import "../../App.css";
 import {toast} from "react-toastify";
 
 const DeleteTodo = (props) => {
   useEffect(() => {
-    props.fetchSingleTodo(props.match.params.id);
+    props.fetchSingleTable(props.match.params.id);
   }, []);
 
   return (
     <Modal
-      title="Delete Todo?"
-      content={renderContent(props.todo)}
+      title="Delete List?"
+      content={renderContent(props.card)}
       actions={renderActions(props)}
       onDismiss={() => props.history.push("/")}
     />
   );
 };
 
-function renderContent(todo) {
-  if (!todo) {
+function renderContent(card) {
+  if (!card) {
     return "Are you sure you want to delete it?";
   }
-  return `This action cannot be undone and it will be removed from the board. Are you sure you want to delete the "${todo.name}" ?`;
+  return `This action cannot be undone and it will be removed from the page. Are you sure you want to delete the "${card.cardName}" ?`;
 }
 
 const style = {
@@ -42,9 +42,9 @@ function renderActions(props) {
 
       <button
         onClick={() =>
-          props.deleteTodo(props.match.params.id, () => {
+          props.deleteTable(props.match.params.id, () => {
             props.history.push("/");
-            toast.error("Todo is succesfully deleted.");
+            toast.error("List is succesfully deleted.");
           })
         }
         className="btn btn-danger"
@@ -57,9 +57,9 @@ function renderActions(props) {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    todo: state.todo[ownProps.match.params.id],
+    card: state.cardName[ownProps.match.params.id],
   };
 };
-export default connect(mapStateToProps, {deleteTodo, fetchSingleTodo})(
+export default connect(mapStateToProps, {deleteTable, fetchSingleTable})(
   DeleteTodo
 );
