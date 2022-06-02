@@ -28,8 +28,8 @@ function AddTable(props) {
   };
   const renderTodo = () => {
     return props.listName.map((el, index) => (
-      <Col sm={4}>
-        <AddTodo key={index} cardName={el.cardName} cardId={el.id}/>
+      <Col key={index} sm={4}>
+        <AddTodo key={index} card={el}/>
       </Col>
     ));
   };
@@ -59,11 +59,10 @@ function AddTable(props) {
         </Button>
         {card ? (
           <div className="mt-2">
-            <input placeholder="Add new card.." onChange={onInputChange} />
+            <input placeholder="Add a new list.." onChange={onInputChange} />
             <div className="mt-2">
               <Button onClick={addCard} variant="danger" >Cancel</Button>
-              <Button onClick={onAddButtonClick} variant="info" style={{display: "flex", alignItems: "flex-end", float: "right"}}>Add</Button>
-              
+              <Button onClick={onAddButtonClick} variant="info" style={{display: "flex", alignItems: "flex-end", float: "right"}}>Add</Button> 
             </div>
           </div>
         ) : undefined}

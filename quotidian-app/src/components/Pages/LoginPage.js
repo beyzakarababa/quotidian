@@ -20,8 +20,6 @@ const renderInput = ({input, label, meta}) => {
 const LoginPage = (props) => {
     const onSubmit = (formvalues) => {
         const rowData = new URLSearchParams(Object.keys(formvalues).map(key=>[key,formvalues[key]]));
-        console.log("login page form values: " ,formvalues);
-        console.log(rowData);
         props.login(rowData, ()=> props.history.push("login"));
     }
     

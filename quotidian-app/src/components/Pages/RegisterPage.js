@@ -18,10 +18,8 @@ const renderInput = ({input, label, meta}) => {
 };
 
 const RegisterPage = (props) => {
-  console.log(props);
     const onSubmit = (formvalues) => {
         const rowData = new URLSearchParams(Object.keys(formvalues).map(key=>[key,formvalues[key]]));
-        console.log(rowData);
         props.register(rowData, ()=> props.history.push("/"));
     }
     

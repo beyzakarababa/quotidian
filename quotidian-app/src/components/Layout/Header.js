@@ -11,7 +11,7 @@ import {
 
 export default function Header() {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar variant="light" expand="lg" style={{backgroundColor:"#dce0e6" }}>
       <Container fluid>
         <Navbar.Brand href="#">quotidian</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -25,16 +25,7 @@ export default function Header() {
             <NavDropdown title="Workspaces" id="navbarScrollingDropdown">
               <NavDropdown.Item href="/">My Workspace</NavDropdown.Item>
             </NavDropdown>
-          </Nav>
-          <Form className="d-flex">
-            <FormControl
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-secondary">Search</Button>
-          </Form>
+          </Nav>  
         </Navbar.Collapse>
       </Container>
     </Navbar>
