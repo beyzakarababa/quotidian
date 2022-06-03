@@ -8,6 +8,7 @@ const EditTodo = (props) => {
   
   const handleEditTodo = (values) => {
     props.editTodo(props.todoId, values.name, props.listName);
+    props.handleCloseEditInputTag(false);
   }
   return (
     <ListGroupItem>

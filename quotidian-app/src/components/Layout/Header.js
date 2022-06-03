@@ -8,8 +8,14 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 export default function Header() {
+  let history = useHistory();
+  const handleSignOut = () => {
+    localStorage.setItem("authKey", JSON.stringify("false"));
+    history.push("login");
+  }
   return (
     <Navbar variant="light" expand="lg" style={{backgroundColor:"#dce0e6" }}>
       <Container fluid>
@@ -25,9 +31,12 @@ export default function Header() {
             <NavDropdown title="Workspaces" id="navbarScrollingDropdown">
               <NavDropdown.Item href="/">My Workspace</NavDropdown.Item>
             </NavDropdown>
-          </Nav>  
+          </Nav>
+          <Button variant="outline-secondary" onClick={()=>handleSignOut()}>Sign out</Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 }
+
+

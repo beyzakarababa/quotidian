@@ -55,7 +55,7 @@ export const fetchSingleTodo = (id) => async (dispatch) => {
     payload: response.data,
   });
 };
-export const register = (formvalues, callback) => async (dispatch) => {
+export const register = (formvalues, callback, alert) => async (dispatch) => {
   const response = await axios.post(
     `http://localhost/rest_api/index.php`,
     formvalues
@@ -64,20 +64,29 @@ export const register = (formvalues, callback) => async (dispatch) => {
     type: REGISTER_FORM,
     payload: response.data,
   });
+  alert();
   callback();
 };
 
-export const login = (formvalues, callback) => async (dispatch) => {
-  const response = await axios.get(
-    `http://localhost/rest_api/index.php`,
+export const login = (formvalues, callback, errorAlert, successAlert, signIn) => async (dispatch) => {
+  const response = await axios.post(
+    `http://localhost/rest_api/login.php`,
     formvalues
   );
-  dispatch({
+  console.log(response.data);
+  if (response.data.hata == true) {
+    dispatch({
     type: LOGIN_FORM,
     payload: response.data,
   });
+  signIn();
   callback();
-};
+  successAlert();
+  }
+  else {
+    errorAlert();
+    return null
+  }};
 
 export const createTableName = (values) => async (dispatch) => {
   const response = await axios.post("http://localhost:3001/listName", values);
