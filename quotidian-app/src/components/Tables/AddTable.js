@@ -84,7 +84,7 @@ function AddTable(props) {
       >
         <Button
           onClick={addCard}
-          variant="outline-secondary"
+          variant="outline-primary"
           className="mt-2"
           size="sm"
         >

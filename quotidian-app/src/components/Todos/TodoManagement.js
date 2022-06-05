@@ -47,13 +47,13 @@ const AddTodo = (props) => {
     userSelect: "none",
   
     // change background colour if dragging
-    background: isDragging ? "lightgreen" : "white",
+    background: isDragging ? "lightblue" : "white",
   
     // styles we need to apply on draggables
     ...draggableStyle
   });
   const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? "lightblue" : "#dce0e6",
+    background: isDraggingOver ? "lightgrey" : "#dce0e6",
   });
   
   const handleAddTodo = (values) => {
