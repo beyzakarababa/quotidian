@@ -42,7 +42,7 @@ const LoginPage = (props) => {
     props.login(
       rowData,
       () => props.history.push("/"),
-      () => toast.error("invalid username or password!"),
+      () => toast.error("Invalid username or password!"),
       () => toast.success("You are successfully signed in"),
       () => handleAuthenticate()
     );

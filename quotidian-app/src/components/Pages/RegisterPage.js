@@ -43,7 +43,7 @@ const RegisterPage = (props) => {
     props.register(
       rowData,
       () => props.history.push("login"),
-      () => toast.success("username is succesfully saved.")
+      () => toast.success("Username is succesfully saved.")
     );
   };
 

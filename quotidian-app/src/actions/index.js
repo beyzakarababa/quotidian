@@ -64,8 +64,8 @@ export const register = (formvalues, callback, alert) => async (dispatch) => {
     type: REGISTER_FORM,
     payload: response.data,
   });
-  alert();
   callback();
+  alert();
 };
 
 export const login = (formvalues, callback, errorAlert, successAlert, signIn) => async (dispatch) => {
