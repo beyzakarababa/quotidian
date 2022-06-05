@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Container, Row, Col, Button} from "react-bootstrap";
 import {connect} from "react-redux";
-import {createTableName, fetchTableName} from "../../actions";
-import AddTodo from "../Todos/AddTodo";
+import {createTableName, fetchTableName, editTodo} from "../../actions";
+import AddTodo from "../Todos/TodoManagement";
 import {toast} from "react-toastify";
+import {DragDropContext} from "react-beautiful-dnd";
+import _ from "lodash";
 
 function AddTable(props) {
   const [card, setCard] = useState(false);
@@ -26,16 +28,53 @@ function AddTable(props) {
       toast.success("New list is succesfully created.");
     }
   };
+  function onDragEnd(result) {
+    const {source, destination} = result;
+    if (destination && !_.isEqual(source, destination)) {
+      const item = props.todoList.find((item) => item.id === source.index);
+      if (source.droppableId !== destination.droppableId) {
+        const card = props.listName.find(
+          (item) => item.id === destination.droppableId * 1
+        );
+        if (card) {
+          item.cardName = card.cardName;
+          props.editTodo(item.id, item);
+        }
+      }
+      // if (source.droppableId === destination.droppableId) {
+      const destinationEl = destination.index;
+      if (source.index * 1 < destination.index * 1)
+        for (let i = 0; i < props.todoList.length; i++) {
+          if (props.todoList[i].id >= destinationEl) {
+            let id = props.todoList[i].id;
+            props.todoList[i].id = props.todoList[i].id + 1;
+            props.editTodo(id, props.todoList[i]);
+          }
+        }
+      else
+        for (let i = 0; i < props.todoList.length; i++) {
+          if (props.todoList[i].id <= destinationEl) {
+            let id = props.todoList[i].id;
+            props.todoList[i].id = props.todoList[i].id - 1;
+            props.editTodo(id, props.todoList[i]);
+          }
+        }
+      const sourceId = item.id;
+      item.id = destination.index * 1;
+      props.editTodo(sourceId, item);
+    }
+  }
   const renderTodo = () => {
     return props.listName.map((el, index) => (
       <Col key={index} sm={4}>
-        <AddTodo key={index} card={el}/>
+        <AddTodo key={index} card={el} />
       </Col>
     ));
   };
   return (
     <div>
-      <div className="mx-2"
+      <div
+        className="mx-2"
         style={{
           display: "flex",
           alignItems: "flex-end",
@@ -43,7 +82,12 @@ function AddTable(props) {
           float: "right",
         }}
       >
-        <Button onClick={addCard} variant="outline-secondary" className="mt-2" size="sm">
+        <Button
+          onClick={addCard}
+          variant="outline-secondary"
+          className="mt-2"
+          size="sm"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -61,18 +105,35 @@ function AddTable(props) {
           <div className="mt-2">
             <input placeholder="Add a new list.." onChange={onInputChange} />
             <div className="mt-2">
-              <Button onClick={addCard} variant="danger" >Cancel</Button>
-              <Button onClick={onAddButtonClick} variant="info" style={{display: "flex", alignItems: "flex-end", float: "right"}}>Add</Button> 
+              <Button onClick={addCard} variant="danger">
+                Cancel
+              </Button>
+              <Button
+                onClick={onAddButtonClick}
+                variant="info"
+                style={{
+                  display: "flex",
+                  alignItems: "flex-end",
+                  float: "right",
+                }}
+              >
+                Add
+              </Button>
             </div>
           </div>
         ) : undefined}
       </div>
       <div>
-      <Container className="mt-4">
-        <Row className="mt-4 flex-nowrap overflow-auto" style={{padding:"10px"}}>
-          {renderTodo()}
-        </Row>
-      </Container>
+        <Container className="mt-4">
+          <Row
+            className="mt-4 flex-nowrap overflow-auto"
+            style={{padding: "10px"}}
+          >
+            <DragDropContext onDragEnd={onDragEnd}>
+              {renderTodo()}
+            </DragDropContext>
+          </Row>
+        </Container>
       </div>
     </div>
   );
@@ -80,8 +141,11 @@ function AddTable(props) {
 const mapStateToProps = (state) => {
   return {
     listName: Object.values(state.cardName),
+    todoList: Object.values(state.todo),
   };
 };
-export default connect(mapStateToProps, {createTableName, fetchTableName})(
-  AddTable
-);
+export default connect(mapStateToProps, {
+  createTableName,
+  fetchTableName,
+  editTodo,
+})(AddTable);

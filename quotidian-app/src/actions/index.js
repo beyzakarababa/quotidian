@@ -40,8 +40,8 @@ export const deleteTodo = (id, callback) => async (dispatch) => {
   callback();
 };
 
-export const editTodo = (id, name, cardName) => (dispatch) => {
-  const response = axios.put(`http://localhost:3001/todo/${id}`, {name, cardName});
+export const editTodo = (id, values) => (dispatch) => {
+  const response = axios.put(`http://localhost:3001/todo/${id}`, values);
   dispatch({
     type: EDIT_TODOS_DATA,
     payload: id,
@@ -73,7 +73,6 @@ export const login = (formvalues, callback, errorAlert, successAlert, signIn) =>
     `http://localhost/rest_api/login.php`,
     formvalues
   );
-  console.log(response.data);
   if (response.data.hata == true) {
     dispatch({
     type: LOGIN_FORM,

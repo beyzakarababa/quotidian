@@ -7,13 +7,14 @@ import { connect } from "react-redux";
 const EditTodo = (props) => {
   
   const handleEditTodo = (values) => {
-    props.editTodo(props.todoId, values.name, props.listName);
+    props.list.name = values.name;
+    props.editTodo(props.list.id, props.list);
     props.handleCloseEditInputTag(false);
   }
   return (
     <ListGroupItem>
       <Formik
-        initialValues={{name: props.contentOfCard}}
+        initialValues={{name: props.list.name}}
         onSubmit={(values) => {
           handleEditTodo(values);
         }}

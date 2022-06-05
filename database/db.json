@@ -1,27 +1,29 @@
 {
   "todo": [
     {
-      "name": "test issue 21",
+      "name": "API - Return 500 Internal Server Error when adding advanced hunt group.",
+      "cardName": "Closed",
+      "id": 16
+    },
+    {
+      "name": "test issue",
       "cardName": "Open",
-      "id": 2
+      "id": 17
     },
     {
-      "test issue 4": "",
-      "id": 3
+      "name": "test issue",
+      "cardName": "Closed",
+      "id": 18
     },
     {
-      "name": "beyzatest1234",
+      "name": "API - Return 500 Internal Server Error when adding advanced hunt group.",
       "cardName": "In Progress",
-      "id": 8
+      "id": 19
     },
     {
-      "name": "beyzaaa",
-      "id": 9
-    },
-    {
-      "name": "beyzaa",
+      "name": "2",
       "cardName": "Open",
-      "id": 10
+      "id": 20
     }
   ],
   "listName": [
@@ -36,10 +38,6 @@
     {
       "cardName": "Closed",
       "id": 3
-    },
-    {
-      "cardName": "testcard",
-      "id": 4
     }
   ]
 }
