@@ -1,49 +1,22 @@
 {
   "todo": [
     {
-      "name": "API - Return 500 Internal Server Error when adding advanced hunt group",
+      "name": "test issue",
       "cardName": "Open",
+      "index": 0,
       "id": 1
     },
     {
-      "name": "Unknown error occurred.\" appears when adding a new subscriber with e_clientType field is invalid via bulk on new UI",
-      "cardName": "In Progress",
+      "name": "test issue 2",
+      "cardName": "Open",
+      "index": 11,
       "id": 2
     },
     {
-      "name": "Example GET schedule should be consistent with Body response when GET schedule via API",
-      "cardName": "Closed",
+      "name": "test issue 3",
+      "cardName": "Open",
+      "index": 1,
       "id": 3
-    },
-    {
-      "name": "The search function is not working when searching AC value on page 2",
-      "cardName": "In Progress",
-      "id": 4
-    },
-    {
-      "name": "POST API should return a clear error message when adding a new SMB without billing prefix field in the body request via API for domains with Billing Prefix is enabled",
-      "cardName": "Open",
-      "id": 5
-    },
-    {
-      "name": "Unable to create PSTN DIDs assign to SMB with PSTN Carrier PSX",
-      "cardName": "Need Info",
-      "id": 6
-    },
-    {
-      "name": "500 Internal Server Error appears when adding a new Authorization Code with body request is empty via API",
-      "cardName": "Open",
-      "id": 7
-    },
-    {
-      "name": "The Upload button should not be enabled when no file is selected",
-      "cardName": "In Progress",
-      "id": 8
-    },
-    {
-      "name": "NDS: KBS Portal \"Save User\" button not working",
-      "cardName": "Closed",
-      "id": 9
     }
   ],
   "listName": [

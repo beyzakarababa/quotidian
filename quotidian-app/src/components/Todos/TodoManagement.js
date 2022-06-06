@@ -32,32 +32,40 @@ const AddTodo = (props) => {
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
     const [removed] = sourceClone.splice(droppableSource.index, 1);
-  
+
     destClone.splice(droppableDestination.index, 0, removed);
-  
+
     const result = {};
     result[droppableSource.droppableId] = sourceClone;
     result[droppableDestination.droppableId] = destClone;
-  
+
     return result;
   };
-  
+
   const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: "none",
-  
+
     // change background colour if dragging
     background: isDragging ? "lightblue" : "white",
-  
+
     // styles we need to apply on draggables
-    ...draggableStyle
+    ...draggableStyle,
   });
-  const getListStyle = isDraggingOver => ({
+  const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? "lightgrey" : "#dce0e6",
   });
-  
+
   const handleAddTodo = (values) => {
-    values = {...values, cardName: `${props.card.cardName}`};
+    if (props.todoList.length === 0) {
+      values = {...values, cardName: `${props.card.cardName}`, index: 1};
+    }
+    if (props.todoList.length > 0)
+      values = {
+        ...values,
+        cardName: `${props.card.cardName}`,
+        index: props.todoList[props.todoList.length - 1].index + 1,
+      };
     props.createTodo(values);
     setCard(false);
     toast.success("Todo is succesfully created.");
@@ -99,73 +107,77 @@ const AddTodo = (props) => {
           </Link>
         </Card.Header>
         <ListGroup className="mt-2">
-            <Droppable droppableId={`${props.card.id}`}>
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getListStyle(snapshot.isDraggingOver)}
-                  {...provided.droppableProps}
-                >
-                  {props.todoList.map((todo) => {
-                    if (todo.cardName === props.card.cardName) {
-                      return (
-                        <Draggable key={todo.id} draggableId={todo.id.toString()} index={todo.id}>
-                          {(provided, snapshot) => (
-                            <ListGroupItem
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                              )}
-                              className="d-flex justify-content-between m-2"
-                              key={todo.id}
-                            >
-                              <div>{todo.name}</div>
-                              <div className="d-flex align-items-center">
-                                {["end"].map((direction) => (
-                                  <DropdownButton
-                                    title={""}
-                                    style={{
-                                      display: "flex",
-                                      alignItems: "flex-end",
-                                      float: "right",
-                                    }}
-                                    as={ButtonGroup}
-                                    size="sm"
-                                    key={direction}
-                                    id={`dropdown-button-drop-${direction}`}
-                                    drop={direction}
-                                    variant="white"
+          <Droppable droppableId={`${props.card.id}`}>
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+                {...provided.droppableProps}
+              >
+                {props.todoList.sort((v1, v2)=>v1.index-v2.index).map((todo) => {
+                  if (todo.cardName === props.card.cardName) {
+                    return (
+                      <Draggable
+                        key={todo.id}
+                        draggableId={todo.id.toString()}
+                        index={todo.id}
+                      >
+                        {(provided, snapshot) => (
+                          <ListGroupItem
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            )}
+                            className="d-flex justify-content-between m-2"
+                            key={todo.id}
+                          >
+                            <div>{todo.name}</div>
+                            <div className="d-flex align-items-center">
+                              {["end"].map((direction) => (
+                                <DropdownButton
+                                  title={""}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "flex-end",
+                                    float: "right",
+                                  }}
+                                  as={ButtonGroup}
+                                  size="sm"
+                                  key={direction}
+                                  id={`dropdown-button-drop-${direction}`}
+                                  drop={direction}
+                                  variant="white"
+                                >
+                                  <Dropdown.Item
+                                    eventKey="1"
+                                    as={Link}
+                                    to={`/todos/delete/${todo.id}`}
                                   >
-                                    <Dropdown.Item eventKey="1" as={Link} to={`/todos/delete/${todo.id}`}>
-                                      Delete 
-                                    </Dropdown.Item>
-                                    <Dropdown.Item
-                                      onClick={() =>
-                                        handleOpenEditInputTag(
-                                          todo
-                                        )
-                                      }
-                                      eventKey="2"
-                                    >
-                                      Edit
-                                    </Dropdown.Item>
-                                  </DropdownButton>
-                                ))}
-                              </div>
-                            </ListGroupItem>
-                          )}
-                        </Draggable>
-                      );
-                    }
-                  })}
-                  {provided.placeholder}
-                  <div style={{height:"5px"}}></div>
-                </div>
-              )}
-            </Droppable>
+                                    Delete
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    onClick={() => handleOpenEditInputTag(todo)}
+                                    eventKey="2"
+                                  >
+                                    Edit
+                                  </Dropdown.Item>
+                                </DropdownButton>
+                              ))}
+                            </div>
+                          </ListGroupItem>
+                        )}
+                      </Draggable>
+                    );
+                  }
+                })}
+                {provided.placeholder}
+                <div style={{height: "5px"}}></div>
+              </div>
+            )}
+          </Droppable>
         </ListGroup>
         {openEditInput ? (
           <EditTodo
