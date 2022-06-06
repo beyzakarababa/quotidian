@@ -1,7 +1,7 @@
 {
   "todo": [
     {
-      "name": "test issue",
+      "name": "test issue ",
       "cardName": "Open",
       "index": 0,
       "id": 1
@@ -9,14 +9,20 @@
     {
       "name": "test issue 2",
       "cardName": "Open",
-      "index": 11,
+      "index": -1,
       "id": 2
     },
     {
       "name": "test issue 3",
-      "cardName": "Open",
-      "index": 1,
+      "cardName": "In Progress",
+      "index": 5,
       "id": 3
+    },
+    {
+      "name": "test issue 4",
+      "cardName": "Closed",
+      "index": -2,
+      "id": 4
     }
   ],
   "listName": [

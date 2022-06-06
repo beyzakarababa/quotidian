@@ -3,6 +3,7 @@ import {Formik, Field, Form} from "formik";
 import { Button, ListGroupItem } from "react-bootstrap";
 import { editTodo} from "../../actions";
 import { connect } from "react-redux";
+import {toast} from "react-toastify";
 
 const EditTodo = (props) => {
   
@@ -10,6 +11,7 @@ const EditTodo = (props) => {
     props.list.name = values.name;
     props.editTodo(props.list.id, props.list);
     props.handleCloseEditInputTag(false);
+    toast.success("Todo is succesfully updated.");
   }
   return (
     <ListGroupItem>

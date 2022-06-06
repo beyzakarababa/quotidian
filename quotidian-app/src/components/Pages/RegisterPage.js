@@ -50,7 +50,7 @@ const RegisterPage = (props) => {
   return (
     <div>
       <ToastContainer />
-      <Container className="mt-5">
+      <div style={{margin:"200px"}}>
         <div style={{textAlign: "center"}}>
           <h1>QUOTIDIAN</h1>
         </div>
@@ -89,7 +89,7 @@ const RegisterPage = (props) => {
             </div>
           </form>
         </div>
-      </Container>
+      </div>
     </div>
   );
 };

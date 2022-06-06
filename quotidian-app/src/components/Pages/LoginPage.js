@@ -54,8 +54,8 @@ const LoginPage = (props) => {
   return (
     <div>
       <ToastContainer position="top-center" />
-      <Container>
-        <div className="m-5" style={{textAlign: "center"}} >
+      <div style={{margin:"200px"}}>
+        <div style={{textAlign: "center"}} >
           <h1>QUOTIDIAN</h1>
         </div>
         <form
@@ -93,7 +93,7 @@ const LoginPage = (props) => {
             </div>
           </div>
         </form>
-      </Container>
+      </div>
     </div>
   );
 };

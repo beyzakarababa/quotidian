@@ -30,11 +30,15 @@ function AddTable(props) {
   };
   function onDragEnd(result) {
     const {source, destination} = result;
-    console.log("source:", source);
-    console.log("destination:", destination);
     if (destination && !_.isEqual(source, destination)) {
-      const item = props.todoList.find((item) => item.id === source.index);
-      const dest = props.todoList.find((item) => item.id === destination.index);
+      const item = props.todoList.find((item) => item.index === source.index);
+      const dest = props.todoList.find(
+        (item) => item.index === destination.index
+      );
+      console.log("sourceD:", source);
+      console.log("destinationD:", destination);
+      console.log("source:", item);
+      console.log("destination:", dest);
       if (source.droppableId !== destination.droppableId) {
         const card = props.listName.find(
           (item) => item.id === destination.droppableId * 1
@@ -44,26 +48,32 @@ function AddTable(props) {
           props.editTodo(item.id, item);
         }
       }
-      const destinationEl = dest.index;
-      if (item.index * 1 <= dest.index * 1)
-        for (let i = 0; i < props.todoList.length; i++) {
-          if (props.todoList[i].index >= destinationEl) {
-            let id = props.todoList[i].id;
-            props.todoList[i].index = props.todoList[i].index + 1;
-            props.editTodo(id, props.todoList[i]);
+      if (destination) {
+        const destinationEl = dest.index;
+        if (source.index * 1 <= destination.index * 1) {
+          for (let i = 0; i < props.todoList.length; i++) {
+            if (props.todoList[i].index > destinationEl) {
+              let id = props.todoList[i].id;
+              props.todoList[i].index = props.todoList[i].index + 1;
+              props.editTodo(id, props.todoList[i]);
+            }
           }
+          item.index = destinationEl + 1;
         }
-      if (item.index * 1 > dest.index * 1)
-        for (let i = 0; i < props.todoList.length; i++) {
-          if (props.todoList[i].index <= destinationEl) {
-            let id = props.todoList[i].id;
-            props.todoList[i].index = props.todoList[i].index - 1;
-            props.editTodo(id, props.todoList[i]);
+
+        if (source.index * 1 > destination.index * 1) {
+          for (let i = 0; i < props.todoList.length; i++) {
+            if (props.todoList[i].index < destinationEl) {
+              let id = props.todoList[i].id;
+              props.todoList[i].index = props.todoList[i].index - 1;
+              props.editTodo(id, props.todoList[i]);
+            }
           }
+          item.index = destinationEl - 1;
         }
-      const sourceId = item.id;
-      item.index = destinationEl;
-      props.editTodo(sourceId, item);
+        const sourceId = item.id;
+        props.editTodo(sourceId, item);
+      }
     }
   }
   const renderTodo = () => {

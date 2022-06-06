@@ -120,7 +120,7 @@ const AddTodo = (props) => {
                       <Draggable
                         key={todo.id}
                         draggableId={todo.id.toString()}
-                        index={todo.id}
+                        index={todo.index}
                       >
                         {(provided, snapshot) => (
                           <ListGroupItem
