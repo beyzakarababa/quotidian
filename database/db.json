@@ -3,26 +3,30 @@
     {
       "name": "test issue ",
       "cardName": "Open",
-      "index": 0,
-      "id": 1
+      "index": 32,
+      "id": 1,
+      "color": "#5176f0"
     },
     {
-      "name": "test issue 2",
+      "name": "test issue 5",
       "cardName": "Open",
-      "index": -1,
-      "id": 2
+      "index": 31,
+      "id": 2,
+      "color": "red"
     },
     {
       "name": "test issue 3",
       "cardName": "In Progress",
-      "index": 5,
-      "id": 3
+      "index": 4,
+      "id": 3,
+      "color": "#5176f0"
     },
     {
       "name": "test issue 4",
       "cardName": "Closed",
-      "index": -2,
-      "id": 4
+      "index": 13,
+      "id": 4,
+      "color": "white"
     }
   ],
   "listName": [

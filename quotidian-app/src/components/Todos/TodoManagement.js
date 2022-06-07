@@ -18,6 +18,7 @@ import {
   register,
   login,
   editTable,
+  editTodo,
 } from "../../actions";
 import {Link} from "react-router-dom";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
@@ -27,20 +28,7 @@ const AddTodo = (props) => {
   const [list, setList] = useState();
   const [openEditInput, setOpenEditInput] = useState(false);
   const [card, setCard] = useState(false);
-
-  const move = (source, destination, droppableSource, droppableDestination) => {
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-    destClone.splice(droppableDestination.index, 0, removed);
-
-    const result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-
-    return result;
-  };
+  const [indexKeeper, setIndexKeeper] = useState(1);
 
   const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
@@ -57,15 +45,12 @@ const AddTodo = (props) => {
   });
 
   const handleAddTodo = (values) => {
-    if (props.todoList.length === 0) {
-      values = {...values, cardName: `${props.card.cardName}`, index: 1};
-    }
-    if (props.todoList.length > 0)
-      values = {
-        ...values,
-        cardName: `${props.card.cardName}`,
-        index: props.todoList[props.todoList.length - 1].index + 1,
-      };
+    values = {
+      ...values,
+      cardName: `${props.card.cardName}`,
+      index: indexKeeper,
+      color: "white",
+    };
     props.createTodo(values);
     setCard(false);
     toast.success("Todo is succesfully created.");
@@ -74,6 +59,13 @@ const AddTodo = (props) => {
   const AddButton = () => {
     card ? setCard(false) : setCard(true);
   };
+  useEffect(() => {
+    if (props.todoList.length > 0) {
+      setIndexKeeper(props.todoList[props.todoList.length - 1].index + 1);
+      if (isNaN(props.todoList[props.todoList.length - 1].index))
+        setIndexKeeper(props.todoList[props.todoList.length - 2].index + 1);
+    }
+  }, [props.todoList]);
 
   useEffect(() => {
     props.fetchTodo();
@@ -114,65 +106,148 @@ const AddTodo = (props) => {
                 style={getListStyle(snapshot.isDraggingOver)}
                 {...provided.droppableProps}
               >
-                {props.todoList.sort((v1, v2)=>v1.index-v2.index).map((todo) => {
-                  if (todo.cardName === props.card.cardName) {
-                    return (
-                      <Draggable
-                        key={todo.id}
-                        draggableId={todo.id.toString()}
-                        index={todo.index}
-                      >
-                        {(provided, snapshot) => (
-                          <ListGroupItem
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={getItemStyle(
-                              snapshot.isDragging,
-                              provided.draggableProps.style
-                            )}
-                            className="d-flex justify-content-between m-2"
-                            key={todo.id}
-                          >
-                            <div>{todo.name}</div>
-                            <div className="d-flex align-items-center">
-                              {["end"].map((direction) => (
-                                <DropdownButton
-                                  title={""}
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "flex-end",
-                                    float: "right",
-                                  }}
-                                  as={ButtonGroup}
-                                  size="sm"
-                                  key={direction}
-                                  id={`dropdown-button-drop-${direction}`}
-                                  drop={direction}
-                                  variant="white"
-                                >
-                                  <Dropdown.Item
-                                    eventKey="1"
-                                    as={Link}
-                                    to={`/todos/delete/${todo.id}`}
+                {props.todoList
+                  .sort((v1, v2) => v1.index - v2.index)
+                  .map((todo) => {
+                    if (todo.cardName === props.card.cardName) {
+                      return (
+                        <Draggable
+                          key={todo.id}
+                          draggableId={todo.id.toString()}
+                          index={todo.index}
+                        >
+                          {(provided, snapshot) => (
+                            <ListGroupItem
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                              className="d-flex justify-content-between m-2"
+                              key={todo.id}
+                            >
+                              <div className="d-flex justify-content-start">
+                                {todo.color !== "white" ? (
+                                  <div
+                                    className="mt-1"
+                                    style={{
+                                      backgroundColor: todo.color,
+                                      width: "15px",
+                                      height: "15px",
+                                      borderRadius: "50%",
+                                      marginRight: "5px",
+                                    }}
+                                  ></div>
+                                ) : <></>}
+
+                                <div>{todo.name}</div>
+                              </div>
+
+                              <div className="d-flex align-items-center">
+                                {["end"].map((direction) => (
+                                  <DropdownButton
+                                    title={""}
+                                    style={{
+                                      display: "flex",
+                                      alignItems: "flex-end",
+                                      float: "right",
+                                    }}
+                                    as={ButtonGroup}
+                                    size="sm"
+                                    key={direction}
+                                    id={`dropdown-button-drop-${direction}`}
+                                    drop={direction}
+                                    variant="white"
                                   >
-                                    Delete
-                                  </Dropdown.Item>
-                                  <Dropdown.Item
-                                    onClick={() => handleOpenEditInputTag(todo)}
-                                    eventKey="2"
-                                  >
-                                    Edit
-                                  </Dropdown.Item>
-                                </DropdownButton>
-                              ))}
-                            </div>
-                          </ListGroupItem>
-                        )}
-                      </Draggable>
-                    );
-                  }
-                })}
+                                    <Dropdown.Item
+                                      eventKey="1"
+                                      as={Link}
+                                      to={`/todos/delete/${todo.id}`}
+                                    >
+                                      Delete
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                      onClick={() =>
+                                        handleOpenEditInputTag(todo)
+                                      }
+                                      eventKey="2"
+                                    >
+                                      Edit
+                                    </Dropdown.Item>
+                                    <div style={{marginTop: "6px"}}>
+                                      {["down"].map((direction) => (
+                                        <div
+                                          key={1}
+                                          className="d-flex justify-content-between"
+                                        >
+                                          <span style={{marginLeft: "14px"}}>
+                                            Label
+                                          </span>
+                                          <DropdownButton
+                                            title={""}
+                                            style={{
+                                              display: "flex",
+                                              alignItems: "flex-end",
+                                              float: "right",
+                                            }}
+                                            as={ButtonGroup}
+                                            size="sm"
+                                            key={direction}
+                                            id={`dropdown-button-drop-${direction}`}
+                                            drop={direction}
+                                            variant="white"
+                                          >
+                                            <Dropdown.Item
+                                              onClick={() => {
+                                                todo.color = "red";
+                                                props.editTodo(todo.id, todo);
+                                              }}
+                                              eventKey="1"
+                                              style={{
+                                                backgroundColor: "#c44141",
+                                              }}
+                                            >
+                                              High
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                              onClick={() => {
+                                                todo.color = "orange";
+                                                props.editTodo(todo.id, todo);
+                                              }}
+                                              eventKey="2"
+                                              style={{
+                                                backgroundColor: "orange",
+                                              }}
+                                            >
+                                              Medium
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                              onClick={() => {
+                                                todo.color = "#5176f0";
+                                                props.editTodo(todo.id, todo);
+                                              }}
+                                              eventKey="3"
+                                              style={{
+                                                backgroundColor: "#5176f0",
+                                              }}
+                                            >
+                                              Low
+                                            </Dropdown.Item>
+                                          </DropdownButton>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </DropdownButton>
+                                ))}
+                              </div>
+                            </ListGroupItem>
+                          )}
+                        </Draggable>
+                      );
+                    }
+                  })}
                 {provided.placeholder}
                 <div style={{height: "5px"}}></div>
               </div>
@@ -279,4 +354,5 @@ export default connect(mapStateToProps, {
   register,
   login,
   editTable,
+  editTodo,
 })(AddTodo);

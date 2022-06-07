@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Container, Row, Col, Button} from "react-bootstrap";
+import axios from "axios";
 import {connect} from "react-redux";
 import {createTableName, fetchTableName, editTodo} from "../../actions";
 import AddTodo from "../Todos/TodoManagement";
@@ -10,6 +11,8 @@ import _ from "lodash";
 function AddTable(props) {
   const [card, setCard] = useState(false);
   const [inputChange, setInputChange] = useState("");
+  const [flagProm, setFlagProm] = useState(true);
+
   useEffect(() => {
     props.fetchTableName();
   }, []);
@@ -28,52 +31,51 @@ function AddTable(props) {
       toast.success("New list is succesfully created.");
     }
   };
-  function onDragEnd(result) {
-    const {source, destination} = result;
-    if (destination && !_.isEqual(source, destination)) {
+  async function onDragEnd(result) {
+    console.log(result);
+    const { source, destination } = result;
+    const promises = [];
+    if (destination && !_.isEqual(source, destination) && flagProm) {
+      setFlagProm(false);
       const item = props.todoList.find((item) => item.index === source.index);
       const dest = props.todoList.find(
         (item) => item.index === destination.index
       );
-      console.log("sourceD:", source);
-      console.log("destinationD:", destination);
-      console.log("source:", item);
-      console.log("destination:", dest);
+      console.log('sourceD:', source);
+      console.log('destinationD:', destination);
+      console.log('source:', item);
+      console.log('destination:', dest);
       if (source.droppableId !== destination.droppableId) {
         const card = props.listName.find(
           (item) => item.id === destination.droppableId * 1
         );
         if (card) {
           item.cardName = card.cardName;
-          props.editTodo(item.id, item);
         }
       }
-      if (destination) {
-        const destinationEl = dest.index;
-        if (source.index * 1 <= destination.index * 1) {
-          for (let i = 0; i < props.todoList.length; i++) {
-            if (props.todoList[i].index > destinationEl) {
-              let id = props.todoList[i].id;
-              props.todoList[i].index = props.todoList[i].index + 1;
-              props.editTodo(id, props.todoList[i]);
-            }
-          }
-          item.index = destinationEl + 1;
-        }
 
-        if (source.index * 1 > destination.index * 1) {
-          for (let i = 0; i < props.todoList.length; i++) {
-            if (props.todoList[i].index < destinationEl) {
-              let id = props.todoList[i].id;
-              props.todoList[i].index = props.todoList[i].index - 1;
-              props.editTodo(id, props.todoList[i]);
-            }
-          }
-          item.index = destinationEl - 1;
+      for (let i = 0; i < props.todoList.length; i++) {
+        if (props.todoList[i].index >= destination.index) {
+          props.todoList[i].index = props.todoList[i].index + 1;
+          promises.push(
+            axios.put(
+              `http://localhost:3001/todo/${props.todoList[i].id}`,
+              props.todoList[i]
+            )
+          );
         }
-        const sourceId = item.id;
-        props.editTodo(sourceId, item);
       }
+
+      const sourceId = item.id;
+      item.index = destination.index;
+      promises.push(`http://localhost:3001/todo/${sourceId}`, item);
+      return await Promise.all(promises)
+        .then(() => {
+          setFlagProm(true);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
   }
   const renderTodo = () => {

@@ -6,7 +6,6 @@ import DeleteTodo from "./components/Todos/DeleteTodo";
 import RegisterPage from "./components/Pages/RegisterPage";
 import DeleteTable from "./components/Tables/DeleteTable";
 import LoginPage from "./components/Pages/LoginPage";
-import { useEffect, useState } from "react";
 
 function App() {
   
