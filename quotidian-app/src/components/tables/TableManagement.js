@@ -3,7 +3,7 @@ import {Container, Row, Col, Button} from "react-bootstrap";
 import axios from "axios";
 import {connect} from "react-redux";
 import {createTableName, fetchTableName, editTodo} from "../../actions";
-import AddTodo from "../Todos/TodoManagement";
+import AddTodo from "../todos/TodoManagement";
 import {toast} from "react-toastify";
 import {DragDropContext} from "react-beautiful-dnd";
 import _ from "lodash";

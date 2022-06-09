@@ -1,11 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Dashboard from "./components/Layout/Dashboard";
+import Dashboard from "./layout/Dashboard";
 import { BrowserRouter, Route } from "react-router-dom";
-import DeleteTodo from "./components/Todos/DeleteTodo";
-import RegisterPage from "./components/Pages/RegisterPage";
-import DeleteTable from "./components/Tables/DeleteTable";
-import LoginPage from "./components/Pages/LoginPage";
+import DeleteTodo from "./components/todos/DeleteTodo";
+import RegisterPage from "./pages/RegisterPage";
+import DeleteTable from "./components/tables/DeleteTable";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   

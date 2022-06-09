@@ -1,7 +1,7 @@
 import react from "react";
 import {connect} from "react-redux";
 import {Field, reduxForm} from "redux-form";
-import {login} from "./../../actions";
+import {login} from "../actions";
 import {Button, Container} from "react-bootstrap";
 import {toast, ToastContainer} from "react-toastify";
 import {Link} from "react-router-dom";

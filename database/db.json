@@ -24,7 +24,7 @@
     {
       "name": "ACL-54140 -> Batch NewUI Button settings.",
       "cardName": "In Progress",
-      "index": 24,
+      "index": 25,
       "color": "red",
       "id": 4
     },
@@ -38,14 +38,14 @@
     {
       "name": "ACL-54432 -> Batch e_sku field",
       "cardName": "Closed",
-      "index": 21,
+      "index": 22,
       "color": "orange",
       "id": 7
     },
     {
       "name": "ACL-54066 -> Batch unknown Error occured ",
       "cardName": "Closed",
-      "index": 22,
+      "index": 23,
       "color": "red",
       "id": 8
     }

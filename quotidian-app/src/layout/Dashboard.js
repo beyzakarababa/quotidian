@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Container, Row, Col, Button} from "react-bootstrap";
 import {ToastContainer} from "react-toastify";
-import AddTable from "../Tables/AddTable";
+import AddTable from "../components/tables/TableManagement";
 import Header from "./Header";
 
 export default function Dashboard() {
