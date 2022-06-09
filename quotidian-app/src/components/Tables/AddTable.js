@@ -32,7 +32,6 @@ function AddTable(props) {
     }
   };
   async function onDragEnd(result) {
-    console.log(result);
     const { source, destination } = result;
     const promises = [];
     if (destination && !_.isEqual(source, destination) && flagProm) {
@@ -41,10 +40,6 @@ function AddTable(props) {
       const dest = props.todoList.find(
         (item) => item.index === destination.index
       );
-      console.log('sourceD:', source);
-      console.log('destinationD:', destination);
-      console.log('source:', item);
-      console.log('destination:', dest);
       if (source.droppableId !== destination.droppableId) {
         const card = props.listName.find(
           (item) => item.id === destination.droppableId * 1

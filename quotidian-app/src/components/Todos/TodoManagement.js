@@ -128,19 +128,20 @@ const AddTodo = (props) => {
                               className="d-flex justify-content-between m-2"
                               key={todo.id}
                             >
-                              <div className="d-flex justify-content-start">
+                              <div className="d-flex align-items-center">
                                 {todo.color !== "white" ? (
                                   <div
-                                    className="mt-1"
                                     style={{
                                       backgroundColor: todo.color,
                                       width: "15px",
                                       height: "15px",
                                       borderRadius: "50%",
-                                      marginRight: "5px",
+                                      marginRight: "7px",
                                     }}
                                   ></div>
-                                ) : <></>}
+                                ) : (
+                                  <></>
+                                )}
 
                                 <div>{todo.name}</div>
                               </div>
